@@ -1,0 +1,202 @@
+﻿@model CrucibleBlogMVC.Models.BlogPost
+
+@using CrucibleBlogMVC.Services.Interfaces
+@using CrucibleBlogMVC.Enums
+
+@inject IImageService _ImageService
+@inject IBlogService _BlogService
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<style>
+    .ck-editor__editable_inline {
+        min-height: 600px;
+    }
+
+    input.largerCheckbox {
+        width: 30px;
+        height: 30px;
+    }
+
+    label.form-check-label {
+        font-size: 22px;
+    }
+</style>
+<div class="post-single-wrapper axil-section-gap bg-color-white">
+    <div class="container">
+        <h1>Create</h1>
+        <h4>BlogPost</h4>
+    </div>
+    <hr />
+    <main class="container mt-5">
+        <form asp-action="Edit" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Id" />
+            <input type="hidden" asp-for="@Model.CreatedDate" />
+            <input type="hidden" asp-for="@Model.ImageData" />
+            <input type="hidden" asp-for="@Model.ImageType" />
+            <div class="row">
+                <div class="col-12 col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="control-label">Blog Post Image</label>
+                        <img class="img-fluid border rounded-3 mb-2" style="max-height: 350px;" src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData!,Model.ImageType!,(int)DefaultImage.BlogPostImage)" id="blogImage">
+                        <input asp-for="ImageFile" type="file" class="form-control mt-3 pt-2" accept=".png,.jpg,.jpeg,.gif"
+                               onchange="document.getElementById('blogImage').src = window.URL.createObjectURL(this.files[0])" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Abstract" class="control-label"></label>
+                        <textarea asp-for="Abstract" class="form-control" rows="1"></textarea>
+                        <span asp-validation-for="Abstract" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="control-label">Category</label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8">
+                    <div class="form-group">
+                        <label asp-for="Content" class="control-label"></label>
+                        <textarea asp-for="Content" class="editor form-control"></textarea>
+                        <span asp-validation-for="Content" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" id="tagContainer">
+                        <label asp-for="Tags"></label>
+                        <input class="form-control" type="text" id="tagInput" value="@ViewBag.Tags" name="StringTags" autocomplete="off" />
+                        <div class="tagcloud axil-single-widget mt-2" style="display:none">
+                            @foreach (Tag tag in await _BlogService.GetTagsAsync())
+                            {
+                                <a onclick="addTag(this)">@tag.Name</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group d-flex justify-content-end">
+                <label class="form-check-label me-4 mt-2" asp-for="IsPublished">Publish?</label>
+                <input class="largerCheckbox me-8" type="checkbox" asp-for="IsPublished" />
+                <span asp-validation-for="IsPublished" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex justify-content-end">
+                <label class="form-check-label me-4 mt-2" asp-for="IsDeleted">Delete?</label>
+                <input class="largerCheckbox me-8" type="checkbox" asp-for="IsDeleted" />
+                <span asp-validation-for="IsDeleted" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex justify-content-end">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="form-group mt-5 start-0">
+            <a asp-action="Index" asp-controller="BlogPosts">< Admin Page</a>
+        </div>
+    </main>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <!--CK Editor-->
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('.editor'), {
+                licenseKey: '',
+            })
+            .then(editor => {
+                window.editor = editor;
+            });
+    </script>
+
+    <script>
+        jQuery.expr[':'].contains = function (a, i, m) {
+            return $(a).text().toUpperCase()
+                .indexOf(m[3].toUpperCase()) >= 0;
+        };
+
+        $(document).ready(function () {
+            $('#tagInput').focus(function () {
+                $('.disabledTag').each(function () {
+                    $(this).removeClass('disabledTag')
+                });
+
+                $('.tagcloud').show(300);
+
+                let inputText = $('#tagInput').val();
+                let inputTags = inputText.split(',');
+                let searchString = inputTags.pop().trim();
+
+                $('.tagcloud > a:contains(' + searchString + ')').show();
+                $('.tagcloud > a:not(:contains(' + searchString + ') )').hide();
+
+                inputTags.forEach(tag => {
+                    if (tag.trim() == '') return;
+
+                    let tagElement = $('.tagcloud > a:contains(' + tag.trim() + ')');
+
+                    if (tagElement.text().trim().toLowerCase() == tag.trim().toLowerCase()) {
+                        tagElement.addClass('disabledTag');
+                    }
+                });
+            });
+
+            $('form *:not("#tagInput")').focus(function () {
+                if ($('.tagcloud').is(':visible')) {
+                    $('.tagcloud').hide(300);
+                }
+            });
+
+            $('#tagInput').keyup(function () {
+
+                $('.disabledTag').each(function () {
+                    $(this).removeClass('disabledTag')
+                });
+
+                let inputText = $('#tagInput').val();
+                let inputTags = inputText.split(',');
+                let searchString = inputTags.pop().trim();
+
+                $('.tagcloud > a:contains(' + searchString + ')').show();
+                $('.tagcloud > a:not(:contains(' + searchString + ') )').hide();
+
+                inputTags.forEach(tag => {
+                    if (tag.trim() == '') return;
+
+                    let tagElement = $('.tagcloud > a:contains(' + tag.trim() + ')');
+
+                    if (tagElement.text().trim().toLowerCase() == tag.trim().toLowerCase()) {
+                        tagElement.addClass('disabledTag');
+                    }
+                });
+            });
+        });
+
+        function addTag(tagElement) {
+            let input = document.getElementById('tagInput');
+
+            if (tagElement.classList.contains('disabledTag')) {
+                input.focus()
+                return;
+            }
+
+            let tagName = tagElement.textContent + ',';
+
+            let currentTags = input.value.split(',');
+
+            currentTags.pop();
+            currentTags.push(tagName);
+
+            input.value = currentTags.reduce((inputString, currentString) => inputString + ", " + currentString.trim()) + " ";
+
+            input.focus();
+
+            $('.tagcloud > a').show()
+            tagElement.classList.add('disabledTag');
+        }
+    </script>
+}

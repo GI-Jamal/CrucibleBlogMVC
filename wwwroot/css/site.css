@@ -1,0 +1,116 @@
+:root {
+    --cf-primaryColor: #0869b8;
+    --cf-primaryColorDark: #002a4e;
+    --cf-primaryColorLight: #edf5fc;
+    --cf-secondaryColor: #fff0d9;
+    --cf-secondaryColorLight: #FFF8EC;
+    --cf-dark-color: #131313;
+    --cf-light-gray: #d9d9d9;
+    --cf-light-color: #eeeeee;
+    --cf-title-font: 'Fira Sans', sans-serif;
+    --cf-body-font: 'Roboto', sans-serif;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.square-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+.square-img-container {
+    position: relative;
+    background-color: var(--cf-primaryColorLight);
+    border-color: var(--cf-light-gray);
+    border-style: solid;
+}
+
+    .square-img-container::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
+
+.my-page-item {
+    display: inline-block;
+    list-style: none;
+}
+
+.my-page-link {
+    display: block;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #fff;
+    text-align: center;
+    text-decoration: none;
+    color: #252525;
+    border-radius: 4px;
+    margin: 5px;
+    box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+.my-page-item a.my-page-link:hover, a.my-page-link:active {
+    color: #fff;
+    background-color: #ff993b;
+}
+
+.my-page-item my-page-link li:first-child a {
+    border-radius: 40px 0 0 40px;
+}
+
+.my-page-item my-page-link li:last-child a {
+    border-radius: 0 40px 40px 0;
+}
+
+.largerCheckbox,
+.form-check-input {
+    opacity: 1 !important;
+    position: relative !important;
+    margin: initial !important;
+}
+
+.tagcloud > a:hover {
+    color: white !important;
+}
+
+.tagcloud > a.disabledTag {
+    background-color: lightgray;
+    color: gray !important;
+    font-weight: bold;
+}
+
+.tagcloud > a {
+    color: black !important;
+}
+
+.tagcloud > a.disabledTag:hover {
+    background-color: lightgray;
+    color: darkgray !important;
+    border-color: lightgray !important;
+}
