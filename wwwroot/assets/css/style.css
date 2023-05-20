@@ -481,7 +481,7 @@ html {
 }
 
 body {
-  overflow: hidden;
+  /*overflow: hidden;*/
   font-size: var(--font-size-b1);
   line-height: var(--line-height-b1);
   -webkit-font-smoothing: antialiased;

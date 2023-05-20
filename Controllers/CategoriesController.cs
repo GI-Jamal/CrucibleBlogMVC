@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CrucibleBlogMVC.Data;
 using CrucibleBlogMVC.Models;
+using X.PagedList;
 
 namespace CrucibleBlogMVC.Controllers
 {
@@ -28,21 +29,28 @@ namespace CrucibleBlogMVC.Controllers
         }
 
         // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, int? pageNum)
         {
             if (id == null || _context.Categories == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Categories
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Categories.Include(c => c.BlogPosts).FirstOrDefaultAsync(m => m.Id == id);
+
             if (category == null)
             {
                 return NotFound();
             }
 
-            return View(category);
+            int pageSize = 4;
+            int page = pageNum ?? 1;
+
+            IPagedList<BlogPost> blogPosts = await category.BlogPosts.Where(b => b.IsPublished == true && b.IsDeleted == false).OrderByDescending(b => b.CreatedDate).ToPagedListAsync(page, pageSize);
+
+            ViewData["CategoryName"] = category.Name;
+
+            return View(blogPosts);
         }
 
         // GET: Categories/Create

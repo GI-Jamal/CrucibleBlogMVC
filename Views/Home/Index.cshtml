@@ -22,17 +22,16 @@
     <div class="axil-post-list-area axil-section-gap bg-color-white">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-12 col-lg-8 text-lg-center">
                     <div class="page-title">
-                        <h2 class="title mb--40">Articles By This Author</h2>
+                        <h2 class="title mb--40">@ViewBag.BodyTitle</h2>
                     </div>
                 </div>
                 <div class="col-lg-8 col-xl-8">
                     @foreach (BlogPost blogPost in Model)
                     {
-
-                        <partial name="_BlogCard" model="@blogPost" />
                         <!-- Start Post List  -->
+                        <partial name="_BlogCard" model="@blogPost" />
                         <!-- End Post List  -->
                     }
 
@@ -112,3 +111,25 @@
     </div>
     <!-- End Instagram Area  -->
 </div>
+
+@section scripts{
+    <!--Sweet Alerts-->
+    <script>
+        let message = '@(ViewBag.SwalMessage)';
+        if (!message.includes("Error") && message != '') {
+            Swal.fire({
+                backdrop: false,
+                icon: 'success',
+                title: message,
+                showConfirmButton: true
+            });
+        } else if (message.includes("Error")) {
+            Swal.fire({
+                backdrop: false,
+                icon: 'error',
+                title: 'Oops...',
+                text: message
+            });
+        }
+    </script>
+}

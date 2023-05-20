@@ -32,7 +32,7 @@ namespace CrucibleBlogMVC.Controllers
         // GET: BlogPosts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.BlogPosts.Include(b => b.Category);
+            var applicationDbContext = _context.BlogPosts.Include(b => b.Category).OrderByDescending(b => b.CreatedDate);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -156,6 +156,7 @@ namespace CrucibleBlogMVC.Controllers
 
             ModelState.Remove("Slug");
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", blogPost.CategoryId);
+            ViewData["Tags"] = stringTags + ", ";
 
             if (ModelState.IsValid)
             {
@@ -187,6 +188,8 @@ namespace CrucibleBlogMVC.Controllers
                     {
                         await _blogService.AddTagsToBlogPostAsync(stringTags, blogPost.Id);
                     }
+                    
+                    return RedirectToAction(nameof(Details), new { blogPost.Slug });
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -199,7 +202,7 @@ namespace CrucibleBlogMVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                
             }
             
             return View(blogPost);

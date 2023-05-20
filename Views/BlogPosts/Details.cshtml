@@ -10,7 +10,7 @@
 
 @{
     ViewData["Title"] = "Details";
-    bool isLiked = await _BlogService.UserLikedBlogAsync(Model.Id, UserManager.GetUserId(User));
+    bool isLiked = await _BlogService.UserLikedBlogAsync(Model.Id, UserManager.GetUserId(User)!);
 }
 
 <style>
@@ -34,7 +34,7 @@
                                     <div class="post-content">
                                         <div class="post-cat">
                                             <div class="post-cat-list">
-                                                <a class="hover-flip-item-wrapper" href="#">
+                                                <a class="hover-flip-item-wrapper" asp-action="Details" asp-controller="Categories" asp-route-id="@Model.CategoryId">
                                                     <span class="hover-flip-item">
                                                         <span data-text="@Model.Category?.Name">@Model.Category?.Name</span>
                                                     </span>
@@ -48,7 +48,7 @@
                                         <div class="post-meta-wrapper">
                                             <div class="post-meta">
                                                 <div class="post-author-avatar border-rounded">
-                                                    <img src="~/img/DefaultUserImage.png" alt="Author Images" style="height:80px;width:80px">
+                                                    <img src="~/img/profilepic.jpg" alt="Author Images" style="height:80px;width:80px">
                                                 </div>
                                                 <div class="content">
                                                     <h6 class="post-author-name">
@@ -122,7 +122,7 @@
                         <div class="media">
                             <div class="thumbnail">
                                 <a href="#">
-                                    <img src="~/img/DefaultUserImage.png" alt="Author Images" style="height:120px;width:120px">
+                                    <img src="~/img/profilepic.jpg" alt="Author Images" style="height:120px;width:120px">
                                 </a>
                             </div>
                             <div class="media-body">
@@ -205,7 +205,7 @@
                                         <div class="comment-body">
                                             <div class="single-comment">
                                                 <div class="comment-img">
-                                                    <img src="~/img/DefaultUserImage.png" alt="Author Images" style="height:40px;width:40px">
+                                                    <img src="@_ImageService.ConvertByteArrayToFileAsync(comment.Author?.ImageData, comment.Author?.ImageType, (int)(DefaultImage.BlogUserImage))" alt="Author Images" style="height:40px;width:40px">
                                                 </div>
                                                 <div class="comment-inner">
                                                     <h6 class="commenter">
@@ -261,7 +261,7 @@
 
     <script type="text/javascript">
         @{
-            string userId = UserManager.GetUserId(User);
+            string userId = UserManager.GetUserId(User)!;
         }
 
             let userId = '@userId';

@@ -1,42 +1,112 @@
-﻿@model CrucibleBlogMVC.Models.Category
+﻿@model IPagedList<CrucibleBlogMVC.Models.BlogPost>
+
+@using CrucibleBlogMVC.Services.Interfaces
+@using CrucibleBlogMVC.Enums
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+
+@inject IImageService _ImageService
+@inject IBlogService _BlogService
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = $"Category: {ViewBag.CategoryName}";
 }
 
-<h1>Details</h1>
+<div class="text-center">
+    <!-- Start Author Area  -->
+    <partial name="_AuthorArea" />
+    <!-- End Author Area  -->
+    <!-- Start Post List Wrapper  -->
+    <div class="axil-post-list-area axil-section-gap bg-color-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-8 text-lg-center">
+                    <div class="page-title">
+                        <h2 class="title mb--40">Articles In This Category: @ViewBag.CategoryName</h2>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-xl-8">
+                    @foreach (BlogPost blogPost in Model)
+                    {
+                        <!-- Start Post List  -->
+                        <partial name="_BlogCard" model="@blogPost" />
+                        <!-- End Post List  -->
+                    }
 
-<div>
-    <h4>Category</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageData)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageData)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageType)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                    <div>
+                        <div>
+                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                        </div>
+                        @Html.PagedListPager(Model, pageNum => Url.Action("Details", new { pageNum }), new PagedListRenderOptions()
+                        {
+                        LiElementClasses = new string[] { "my-page-item" },
+                        PageClasses = new string[] { "my-page-link" }
+                        })
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">
+                    <!-- Start Sidebar Area  -->
+                    <partial name="_SideBarArea" />
+                    <!-- End Sidebar Area  -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Post List Wrapper  -->
+    <!-- Start Instagram Area  -->
+    <div class="axil-instagram-area axil-section-gap bg-color-grey">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <h2 class="title">Instagram</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt--30">
+                <div class="col-lg-12">
+                    <ul class="instagram-post-list">
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-01.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-02.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-03.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-04.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-05.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                        <li class="single-post">
+                            <a href="#">
+                                <img src="assets/images/small-images/instagram-md-06.jpg" alt="Instagram Images">
+                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Instagram Area  -->
 </div>

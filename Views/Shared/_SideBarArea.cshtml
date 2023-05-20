@@ -9,10 +9,10 @@
     <!-- Start Single Widget  -->
     <div class="axil-single-widget widget widget_categories mb--30">
         <ul>
-            @foreach (Category category in (await _BlogService.GetCategoriesAsync()).Take(4))
+            @foreach (Category category in (await _BlogService.GetCategoriesAsync()).OrderByDescending(c => c.BlogPosts.Count).Take(4))
             {
                 <li class="cat-item">
-                    <a href="#" class="inner">
+                    <a asp-action="Details" asp-controller="Categories" asp-route-id="@category.Id" class="inner">
                         <div class="thumbnail">
                             <img src="@_ImageService.ConvertByteArrayToFileAsync(category.ImageData, category.ImageType, (int)DefaultImage.CategoryImage)" alt="">
                         </div>
@@ -83,45 +83,6 @@
             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
             <li><a href="#"><i class="fab fa-slack"></i></a></li>
             <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-        </ul>
-        <!-- End Post List  -->
-    </div>
-    <!-- End Single Widget  -->
-    <!-- Start Single Widget  -->
-    <div class="axil-single-widget widget widget_instagram mb--30">
-        <h5 class="widget-title">Instagram</h5>
-        <!-- Start Post List  -->
-        <ul class="instagram-post-list-wrapper">
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-01.jpg" alt="Instagram Images">
-                </a>
-            </li>
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-02.jpg" alt="Instagram Images">
-                </a>
-            </li>
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-03.jpg" alt="Instagram Images">
-                </a>
-            </li>
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-04.jpg" alt="Instagram Images">
-                </a>
-            </li>
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-05.jpg" alt="Instagram Images">
-                </a>
-            </li>
-            <li class="instagram-post-list">
-                <a href="#">
-                    <img src="assets/images/small-images/instagram-06.jpg" alt="Instagram Images">
-                </a>
-            </li>
         </ul>
         <!-- End Post List  -->
     </div>

@@ -7,7 +7,7 @@
 @inject IBlogService _BlogService
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <style>
@@ -121,18 +121,17 @@
 
         $(document).ready(function () {
             $('#tagInput').focus(function () {
-                $('.disabledTag').each(function () {
-                    $(this).removeClass('disabledTag')
-                });
+                //$('.disabledTag').each(function () {
+                //    $(this).removeClass('disabledTag')
+                //});
 
                 $('.tagcloud').show(300);
 
                 let inputText = $('#tagInput').val();
                 let inputTags = inputText.split(',');
-                let searchString = inputTags.pop().trim();
 
-                $('.tagcloud > a:contains(' + searchString + ')').show();
-                $('.tagcloud > a:not(:contains(' + searchString + ') )').hide();
+                //$('.tagcloud > a:contains(' + searchString + ')').show();
+                //$('.tagcloud > a:not(:contains(' + searchString + ') )').hide();
 
                 inputTags.forEach(tag => {
                     if (tag.trim() == '') return;

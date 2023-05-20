@@ -10,7 +10,7 @@
 @inject IBlogService _BlogService
 
 @{
-    ViewData["Title"] = $"Tag: {ViewBag.TagName}";
+    ViewData["Title"] = "Favorites";
 }
 
 <div class="text-center">
@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-12 col-lg-8 text-lg-center">
                     <div class="page-title">
-                        <h2 class="title mb--40">Articles With This Tag: @ViewBag.TagName</h2>
+                        <h2 class="title mb--40">@ViewBag.BodyTitle</h2>
                     </div>
                 </div>
                 <div class="col-lg-8 col-xl-8">
@@ -38,11 +38,13 @@
                         <div>
                             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                         </div>
-                        @Html.PagedListPager(Model, pageNum => Url.Action("Details", new { pageNum }), new PagedListRenderOptions()
-                        {
-                        LiElementClasses = new string[] { "my-page-item" },
-                        PageClasses = new string[] { "my-page-link" }
-                        })
+                        <div>
+                            @Html.PagedListPager(Model, pageNum => Url.Action("FavoritePosts", new { pageNum }), new PagedListRenderOptions()
+                            {
+                            LiElementClasses = new string[] { "my-page-item" },
+                            PageClasses = new string[] { "my-page-link" }
+                            })
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xl-4 mt_md--40 mt_sm--40">

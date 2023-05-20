@@ -31,14 +31,16 @@ namespace CrucibleBlogMVC.Controllers
             _configuration = configuration;
         }
 
-        public async Task<IActionResult> Index(int? pageNum)
+        public async Task<IActionResult> Index(int? pageNum, string? swalMessage = null)
         {
             int pageSize = 4;
             int page = pageNum ?? 1;
 
             IPagedList<BlogPost> blogPosts = await _context.BlogPosts.Include(b => b.Category).Where(b => b.IsPublished == true).OrderByDescending(b => b.CreatedDate).ToPagedListAsync(page, pageSize);
 
+            ViewData["SwalMessage"] = swalMessage;
             ViewData["ActionName"] = "Index";
+            ViewData["BodyTitle"] = "Articles By This Author";
 
             return View(blogPosts);
         }
@@ -48,7 +50,7 @@ namespace CrucibleBlogMVC.Controllers
             int pageSize = 4;
             int page = pageNum ?? 1;
 
-            if (string.IsNullOrWhiteSpace(searchString))
+            if (string.IsNullOrEmpty(searchString?.Trim()))
             {
                 searchString = TempData["SearchString"]?.ToString();
             }
@@ -58,6 +60,8 @@ namespace CrucibleBlogMVC.Controllers
             IPagedList<BlogPost> blogPosts = await _blogService.SearchBlogPosts(searchString).ToPagedListAsync(page, pageSize);
 
             ViewData["ActionName"] = "SearchIndex";
+            
+            ViewData["BodyTitle"] = $"Articles That Contain: {searchString}";
 
             return View(nameof(Index), blogPosts);
         }
@@ -76,9 +80,9 @@ namespace CrucibleBlogMVC.Controllers
 
             IPagedList<BlogPost> blogPosts = await (await _blogService.GetFavoriteBlogPostsAsync(blogUserId)).ToPagedListAsync(page, pageSize);
 
-            ViewData["ActionName"] = "FavoritePosts";
+            ViewData["BodyTitle"] = "Posts You've Liked By This Author";
 
-            return View(nameof(Index), blogPosts);
+            return View(blogPosts);
         }
 
         [Authorize]
@@ -105,20 +109,21 @@ namespace CrucibleBlogMVC.Controllers
             {
                 try
                 {
-                    string? userEmail = blogUser.Email;
-                    await _emailService.SendEmailAsync(userEmail!, $"Contact Me Message From - {blogUser.FullName}", message!);
+                    message += $". Respond to user at: {blogUser.Email}";
+
+                    string? adminEmail = _configuration["AdminLoginEmail"] ?? Environment.GetEnvironmentVariable("AdminLoginEmail");
+                    await _emailService.SendEmailAsync(adminEmail!, $"Contact Me Message From - {blogUser.FullName}", message!);
                     swalMessage = "Email sent successfully!";
                 }
                 catch (Exception)
                 {
-
+                    ViewData["SwalMessage"] = "Error: Unable to send email.";
                     throw;
                 }
-                
-                swalMessage = "Error: Unable to send email.";
             }
 
             return RedirectToAction("Index", new { swalMessage });
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

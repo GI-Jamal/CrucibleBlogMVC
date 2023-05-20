@@ -10,15 +10,13 @@ namespace CrucibleBlogMVC.Services
     public class EmailService : IEmailSender
     {
         private readonly EmailSettings _emailSettings;
-        private readonly IConfiguration _configuration;
 
-        public EmailService(IOptions<EmailSettings> emailSettings, IConfiguration configuration)
+        public EmailService(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
-            _configuration = configuration;
         }
 
-        public async Task SendEmailAsync(string fromEmail, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             try
             {
@@ -26,18 +24,19 @@ namespace CrucibleBlogMVC.Services
                 var emailPassword = _emailSettings.EmailPassword ?? Environment.GetEnvironmentVariable("EmailPassword");
                 var emailHost = _emailSettings.EmailHost ?? Environment.GetEnvironmentVariable("EmailHost");
                 var emailPort = _emailSettings.EmailPort != 0 ? _emailSettings.EmailPort : int.Parse(Environment.GetEnvironmentVariable("EmailPort")!);
-                var toEmail = _configuration["AdminLoginEmail"] ?? Environment.GetEnvironmentVariable("AdminLoginEmail");
 
-                MimeMessage newEmail = new();
+                MimeMessage newEmail = new()
+                {
+                    Sender = MailboxAddress.Parse(emailAddress)
+                };
 
-                newEmail.Sender = MailboxAddress.Parse(emailAddress);
-                newEmail.To.Add(MailboxAddress.Parse(toEmail));
-                newEmail.From.Add(MailboxAddress.Parse(fromEmail));
+                newEmail.To.Add(MailboxAddress.Parse(email));
                 newEmail.Subject = subject;
 
-                BodyBuilder emailBody = new();
-
-                emailBody.HtmlBody = htmlMessage;
+                BodyBuilder emailBody = new()
+                {
+                    HtmlBody = htmlMessage
+                };
 
                 newEmail.Body = emailBody.ToMessageBody();
 

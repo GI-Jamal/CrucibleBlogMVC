@@ -66,7 +66,7 @@ namespace CrucibleBlogMVC.Services
         {
             try
             {
-                IEnumerable<Category>? categories = await _context.Categories.ToListAsync();
+                IEnumerable<Category>? categories = await _context.Categories.Include(c => c.BlogPosts).ToListAsync();
                 return categories;
             }
             catch (Exception)
@@ -152,13 +152,26 @@ namespace CrucibleBlogMVC.Services
 
         public async Task RemoveAllBlogPostTagsAsync(int? blogPostId)
         {
-            BlogPost? blogPost = await _context.BlogPosts.Where(b => b.Id == blogPostId).Include(b => b.Tags).FirstOrDefaultAsync();
-
-            if (blogPost != null)
+            if (blogPostId == null)
             {
-                blogPost.Tags.Clear();
-                _context.Update(blogPost);
-                await _context.SaveChangesAsync();
+                return;
+            }
+
+            try
+            {
+                BlogPost? blogPost = await _context.BlogPosts.Include(b => b.Tags).FirstOrDefaultAsync(b => b.Id == blogPostId);
+
+                if (blogPost != null)
+                {
+                    blogPost.Tags.Clear();
+                    _context.Update(blogPost);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
