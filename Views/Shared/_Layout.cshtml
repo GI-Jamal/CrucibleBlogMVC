@@ -116,7 +116,7 @@
                                     @if (User.IsInRole("Admin"))
                                     {
                                         <li class="menu-item-has-children">
-                                            <a href="#">Author</a>
+                                            <a>Author</a>
                                             <ul class="axil-submenu">
                                                 <li>
                                                     <a class="hover-flip-item-wrapper" href="~/swagger">
@@ -238,9 +238,9 @@
                         <a asp-action="Index" asp-controller="Home">Home</a>
                     </li>
                     <li class="menu-item-has-children">
-                        <a href="#">Posts</a>
+                        <a>Posts</a>
                         <ul class="axil-submenu">
-                            <li><a href="post-details.html">All Posts</a></li>
+                            <li><a asp-action="Index" asp-controller="Home">All Posts</a></li>
                             <li><a href="post-details.html">Popular Posts</a></li>
                             <li><a href="post-details.html">Recent Posts</a></li>
                         </ul>
@@ -252,7 +252,7 @@
                     @if (User.IsInRole("Admin"))
                     {
                         <li class="menu-item-has-children">
-                            <a href="#">Author</a>
+                            <a>Author</a>
                             <ul class="axil-submenu">
                                 <li>
                                     <a class="hover-flip-item-wrapper" href="~/swagger">

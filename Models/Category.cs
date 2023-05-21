@@ -13,7 +13,7 @@ namespace CrucibleBlogMVC.Models
         [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 2)]
         public string? Name { get; set; }
 
-        [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at most {1} characters long.", MinimumLength = 2)]
+        [StringLength(50, ErrorMessage = "The {0} must be at most {1} characters long.")]
         public string? Description { get; set; }
 
         // Image Properties

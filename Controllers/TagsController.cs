@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using CrucibleBlogMVC.Data;
 using CrucibleBlogMVC.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace CrucibleBlogMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TagsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,6 +31,7 @@ namespace CrucibleBlogMVC.Controllers
                           Problem("Entity set 'ApplicationDbContext.Tags'  is null.");
         }
 
+        [AllowAnonymous]
         // GET: Tags/Details/5
         public async Task<IActionResult> Details(int? id, int? pageNum)
         {
@@ -108,6 +112,14 @@ namespace CrucibleBlogMVC.Controllers
             {
                 try
                 {
+                    Tag? dbTag = await _context.Tags.Where(c => c.Id != tag.Id).FirstOrDefaultAsync(c => c.Name!.Trim().ToLower() == tag.Name!.Trim().ToLower());
+
+                    if (dbTag != null)
+                    {
+                        ModelState.AddModelError("Name", "A similar Name is already in use.");
+                        return View(tag);
+                    }
+
                     _context.Update(tag);
                     await _context.SaveChangesAsync();
                 }

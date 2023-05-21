@@ -115,6 +115,10 @@ html {
     border-color: lightgray !important;
 }
 
+.categoryCard {
+    align-content: space-between;
+}
+
 @media (max-width: 992px) {
     .LoginAndRegister {
         max-width: 250px !important;

@@ -8,26 +8,35 @@ using Microsoft.EntityFrameworkCore;
 using CrucibleBlogMVC.Data;
 using CrucibleBlogMVC.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
+using CrucibleBlogMVC.Services.Interfaces;
+using CrucibleBlogMVC.Services;
 
 namespace CrucibleBlogMVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IImageService _imageService;
 
-        public CategoriesController(ApplicationDbContext context)
+
+        public CategoriesController(ApplicationDbContext context, IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
-                          View(await _context.Categories.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
+            return _context.Categories != null ?
+                        View(await _context.Categories.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
         }
 
+        [AllowAnonymous]
         // GET: Categories/Details/5
         public async Task<IActionResult> Details(int? id, int? pageNum)
         {
@@ -56,7 +65,8 @@ namespace CrucibleBlogMVC.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
-            return View();
+            Category category = new();
+            return View(category);
         }
 
         // POST: Categories/Create
@@ -64,10 +74,26 @@ namespace CrucibleBlogMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,ImageData,ImageType")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,ImageFile")] Category category)
         {
             if (ModelState.IsValid)
             {
+                Category? dbCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name!.Trim().ToLower() == category.Name!.Trim().ToLower());
+
+                if (dbCategory != null)
+                {
+                    ModelState.AddModelError("Name", "A similar Name is already in use.");
+                    return View(category);
+                }
+
+
+                if (category.ImageFile != null)
+                {
+                    category.ImageData = await _imageService.ConvertFileToByteArrayAsync(category.ImageFile);
+                    category.ImageType = category.ImageFile.ContentType;
+                }
+
+
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -83,11 +109,12 @@ namespace CrucibleBlogMVC.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.FindAsync(id);
+            Category? category = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
+
             return View(category);
         }
 
@@ -96,7 +123,7 @@ namespace CrucibleBlogMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ImageData,ImageType")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ImageFile,ImageData,ImageType")] Category category)
         {
             if (id != category.Id)
             {
@@ -107,6 +134,20 @@ namespace CrucibleBlogMVC.Controllers
             {
                 try
                 {
+                    Category? dbCategory = await _context.Categories.Where(c => c.Id != category.Id).FirstOrDefaultAsync(c => c.Name!.Trim().ToLower() == category.Name!.Trim().ToLower());
+
+                    if (dbCategory != null)
+                    {
+                        ModelState.AddModelError("Name", "A similar Name is already in use.");
+                        return View(category);
+                    }
+
+                    if (category.ImageFile != null)
+                    {
+                        category.ImageData = await _imageService.ConvertFileToByteArrayAsync(category.ImageFile);
+                        category.ImageType = category.ImageFile.ContentType;
+                    }
+
                     _context.Update(category);
                     await _context.SaveChangesAsync();
                 }
@@ -158,14 +199,14 @@ namespace CrucibleBlogMVC.Controllers
             {
                 _context.Categories.Remove(category);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

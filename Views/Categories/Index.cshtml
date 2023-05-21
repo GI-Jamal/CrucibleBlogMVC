@@ -1,57 +1,55 @@
 ﻿@model IEnumerable<CrucibleBlogMVC.Models.Category>
 
+@using CrucibleBlogMVC.Services.Interfaces
+@using CrucibleBlogMVC.Enums
+
+@inject IImageService _ImageService
+
 @{
     ViewData["Title"] = "Categories";
 }
 
-<div class="container-xxl mt-4">
+<div class="container mt-5">
     <h1>Categories</h1>
 
     <p>
         <a asp-action="Create">Create New</a>
     </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageData)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ImageType)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImageData)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ImageType)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @{
+        foreach (Category category in Model)
+        {
+            <div class="content-block post-list-view mt--30">
+                <div class="post-thumbnail">
+                    <a asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id">
+                        <img src="@_ImageService.ConvertByteArrayToFileAsync(category.ImageData, category.ImageType, (int)(DefaultImage.CategoryImage))">
+                    </a>
+                </div>
+                    <div class="post-content d-flex flex-column">
+                    <div class="post-cat">
+                        <div class="post-cat-list">
+                            <a class="hover-flip-item-wrapper" asp-action="Details" asp-controller="Categories" asp-route-id="@category.Id">
+                                <span class="hover-flip-item">
+                                    <span data-text="@category.Name">@category.Name</span>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-auto">
+                            @category.Description
+                    </p>
+                    <div class="post-meta-wrapper justify-content-end">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <ul class="social-share-transparent justify-content-end">
+                                <li><a asp-action="Edit" asp-route-id="@category.Id" asp-controller="Categories"><i class="fa-solid fa-file-pen fa-xl"></i></a></li>
+                                <li><a asp-action="Details" asp-route-id="@category.Id" asp-controller="Categories"><i class="fa-solid fa-file-invoice fa-xl"></i></a></li>
+                                <li><a asp-action="Delete" asp-route-id="@category.Id" asp-controller="Categories"><i class="fa-solid fa-trash fa-xl"></i></a></li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
 
+    }
 </div>
