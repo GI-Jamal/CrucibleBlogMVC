@@ -95,6 +95,15 @@ namespace CrucibleBlogMVC.Controllers
 
             IPagedList<BlogPost> blogPosts = await (await _blogService.GetFavoriteBlogPostsAsync(blogUserId)).ToPagedListAsync(page, pageSize);
 
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+            ViewData["BlogAuthor"] = blogAuthor;
+
             ViewData["BodyTitle"] = "Posts You've Liked By This Author";
 
             return View(blogPosts);
