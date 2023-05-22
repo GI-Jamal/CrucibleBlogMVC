@@ -33,8 +33,17 @@ namespace CrucibleBlogMVC.Controllers
 
         public async Task<IActionResult> Index(int? pageNum, string? swalMessage = null)
         {
-            int pageSize = 4;
+            int pageSize = 3;
             int page = pageNum ?? 1;
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+            ViewData["BlogAuthor"] = blogAuthor;
+
 
             IPagedList<BlogPost> blogPosts = await _context.BlogPosts.Include(b => b.Category).Where(b => b.IsPublished == true).OrderByDescending(b => b.CreatedDate).ToPagedListAsync(page, pageSize);
 
@@ -47,15 +56,25 @@ namespace CrucibleBlogMVC.Controllers
 
         public async Task<IActionResult> SearchIndex(string? searchString, int? pageNum)
         {
-            int pageSize = 4;
+            int pageSize = 3;
             int page = pageNum ?? 1;
+
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+            ViewData["BlogAuthor"] = blogAuthor;
+
 
             IPagedList<BlogPost> blogPosts = await _blogService.SearchBlogPosts(searchString?.Trim()).ToPagedListAsync(page, pageSize);
 
             ViewData["ActionName"] = "SearchIndex";
 
             ViewData["SearchString"] = searchString;
-            
+
             ViewData["BodyTitle"] = $"Articles That Contain: {searchString}";
 
             return View(nameof(Index), blogPosts);
@@ -66,9 +85,10 @@ namespace CrucibleBlogMVC.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> FavoritePosts(int? pageNum)
         {
-            int pageSize = 4;
+            int pageSize = 3;
             int page = pageNum ?? 1;
 
             string? blogUserId = _userManager.GetUserId(User);
@@ -94,6 +114,7 @@ namespace CrucibleBlogMVC.Controllers
 
             return View(blogUser);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ContactMe([Bind("FirstName,LastName,Email")] BlogUser blogUser, string? message)
@@ -118,7 +139,29 @@ namespace CrucibleBlogMVC.Controllers
             }
 
             return RedirectToAction("Index", new { swalMessage });
+
+        }
+
+        public async Task<IActionResult> PopularPosts(int? pageNum)
+        {
+            int pageSize = 3;
+            int page = pageNum ?? 1;
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+            ViewData["BlogAuthor"] = blogAuthor;
+
+
+            IPagedList<BlogPost> blogPosts = await (await _blogService.GetPopularBlogPostsAsync()).ToPagedListAsync(page, pageSize);
             
+            ViewData["ActionName"] = "PopularPosts";
+            ViewData["BodyTitle"] = "Popular Articles By This Author";
+
+            return View(blogPosts);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

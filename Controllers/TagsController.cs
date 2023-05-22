@@ -48,12 +48,24 @@ namespace CrucibleBlogMVC.Controllers
                 return NotFound();
             }
 
-            int pageSize = 4;
+            int pageSize = 3;
             int page = pageNum ?? 1;
 
             IPagedList<BlogPost> blogPosts = await tag.BlogPosts.Where(b => b.IsPublished == true && b.IsDeleted == false).OrderByDescending(b => b.CreatedDate).ToPagedListAsync(page, pageSize);
 
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+
+            ViewData["BlogAuthor"] = blogAuthor;
+
             ViewData["TagName"] = tag.Name;
+
+
 
             return View(blogPosts);
         }

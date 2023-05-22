@@ -52,10 +52,20 @@ namespace CrucibleBlogMVC.Controllers
                 return NotFound();
             }
 
-            int pageSize = 4;
+            int pageSize = 3;
             int page = pageNum ?? 1;
 
             IPagedList<BlogPost> blogPosts = await category.BlogPosts.Where(b => b.IsPublished == true && b.IsDeleted == false).OrderByDescending(b => b.CreatedDate).ToPagedListAsync(page, pageSize);
+
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+
+            ViewData["BlogAuthor"] = blogAuthor;
 
             ViewData["CategoryName"] = category.Name;
 
@@ -194,13 +204,34 @@ namespace CrucibleBlogMVC.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
             }
-            var category = await _context.Categories.FindAsync(id);
+            Category? category = await _context.Categories.Include(c => c.BlogPosts).FirstOrDefaultAsync(c => c.Id == id);
             if (category != null)
             {
+
+                Category? generalCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Name!.Trim().ToLower() == "general");
+                if (generalCategory == null)
+                {
+                    generalCategory = new() { Name = "General" };
+                    _context.Categories.Add(generalCategory);
+                    await _context.SaveChangesAsync();
+                }
+
+
+
+                foreach (BlogPost blogPost in category.BlogPosts)
+                {
+                    blogPost.CategoryId = generalCategory.Id;
+                    blogPost.Category = generalCategory;
+                }
+
+                await _context.SaveChangesAsync();
+
                 _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

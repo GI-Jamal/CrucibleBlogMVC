@@ -60,6 +60,15 @@ namespace CrucibleBlogMVC.Controllers
                 return NotFound();
             }
 
+            string? adminRoleId;
+            string? adminId;
+            BlogUser? blogAuthor;
+
+            adminRoleId = await _context.Roles.Where(u => u.Name == "Admin").Select(u => u.Id).FirstOrDefaultAsync();
+            adminId = await _context.UserRoles.Where(u => u.RoleId == adminRoleId).Select(u => u.UserId).FirstOrDefaultAsync();
+            blogAuthor = await _context.Users.FirstOrDefaultAsync(u => u.Id == adminId);
+            ViewData["BlogAuthor"] = blogAuthor;
+
             return View(blogPost);
         }
 
@@ -247,7 +256,8 @@ namespace CrucibleBlogMVC.Controllers
             var blogPost = await _context.BlogPosts.FindAsync(id);
             if (blogPost != null)
             {
-                _context.BlogPosts.Remove(blogPost);
+                blogPost.IsDeleted = true;
+                blogPost.IsPublished = false;
             }
 
             await _context.SaveChangesAsync();

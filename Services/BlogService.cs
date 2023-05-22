@@ -125,9 +125,23 @@ namespace CrucibleBlogMVC.Services
             }
         }
 
-        public Task<IEnumerable<BlogPost>> GetPopularBlogPostsAsync()
+        public async Task<IEnumerable<BlogPost>> GetPopularBlogPostsAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                IEnumerable<BlogPost> blogPosts = await _context.BlogPosts.Where(b => b.IsDeleted == false && b.IsPublished == true)
+                                                                          .Include(b => b.Category)
+                                                                          .Include(b => b.Comments)
+                                                                            .ThenInclude(c => c.Author)
+                                                                          .Include(b => b.Tags)
+                                                                          .ToListAsync();
+                return blogPosts.OrderByDescending(b => b.Comments.Count).ToList();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Task<IEnumerable<BlogPost>> GetRecentBlogPostsAsync()

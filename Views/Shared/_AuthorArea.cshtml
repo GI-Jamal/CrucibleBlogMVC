@@ -1,4 +1,11 @@
-﻿<div class="axil-author-area axil-author-banner bg-color-grey">
+﻿@using CrucibleBlogMVC.Services.Interfaces
+@using CrucibleBlogMVC.Enums
+@using CrucibleBlogMVC.Data
+
+@inject IImageService _ImageService
+
+
+<div class="axil-author-area axil-author-banner bg-color-grey">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -6,12 +13,12 @@
                     <div class="media d-flex flex-column flex-md-row">
                         <div class="thumbnail order">
                             <a>
-                                <img src="~/img/profilepic.jpg" style="max-width: 300px;" class="img-fluid"/>
+                                <img src="@_ImageService.ConvertByteArrayToFileAsync(ViewBag.BlogAuthor.ImageData, ViewBag.BlogAuthor.ImageType, (int)(DefaultImage.BlogUserImage))" style="max-width: 300px;" class="img-fluid" />
                             </a>
                         </div>
                         <div class="media-body">
                             <div class="author-info">
-                                <h1 class="title"><a href="#">Jamal Gibson</a></h1>
+                                <h1 class="title"><a href="https://jamalgibson-portfolio.netlify.app/">Jamal Gibson</a></h1>
                                 <span class="b3 subtitle">Sr. UX Designer</span>
                             </div>
                             <div class="content">

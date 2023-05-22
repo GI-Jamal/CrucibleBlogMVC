@@ -48,7 +48,7 @@
                                         <div class="post-meta-wrapper">
                                             <div class="post-meta">
                                                 <div class="post-author-avatar border-rounded">
-                                                    <img src="~/img/profilepic.jpg" alt="Author Images" style="height:80px;width:80px">
+                                                    <img src="@_ImageService.ConvertByteArrayToFileAsync(ViewBag.BlogAuthor.ImageData, ViewBag.BlogAuthor.ImageType, (int)(DefaultImage.BlogUserImage))" alt="Author Images" style="height:80px;width:80px">
                                                 </div>
                                                 <div class="content">
                                                     <h6 class="post-author-name">
@@ -122,7 +122,7 @@
                         <div class="media">
                             <div class="thumbnail">
                                 <a href="#">
-                                    <img src="~/img/profilepic.jpg" alt="Author Images" style="height:120px;width:120px">
+                                    <img src="@_ImageService.ConvertByteArrayToFileAsync(ViewBag.BlogAuthor.ImageData, ViewBag.BlogAuthor.ImageType, (int)(DefaultImage.BlogUserImage))" alt="Author Images" style="height:120px;width:120px">
                                 </a>
                             </div>
                             <div class="media-body">
@@ -140,13 +140,6 @@
                                     <p class="b1 description">
                                         Write something interesting about yourself here.  Just a line or two...
                                     </p>
-                                    <ul class="social-share-transparent size-md">
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="far fa-envelope"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>

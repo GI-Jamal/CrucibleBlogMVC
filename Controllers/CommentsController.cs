@@ -25,6 +25,7 @@ namespace CrucibleBlogMVC.Controllers
         }
 
         // GET: Comments
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Comments.Include(c => c.Author).Include(c => c.BlogPost);
@@ -74,12 +75,16 @@ namespace CrucibleBlogMVC.Controllers
 
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                BlogPost? blogPost = await _context.BlogPosts.FirstOrDefaultAsync(b => b.Id == comment.BlogPostId);
+
+                return RedirectToAction(nameof(Details), new { blogPost?.Slug });
             }
             ViewData["BlogPostId"] = new SelectList(_context.BlogPosts, "Id", "Id", comment.BlogPostId);
             return View(comment);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -98,10 +103,12 @@ namespace CrucibleBlogMVC.Controllers
             return View(comment);
         }
 
+
         // POST: Comments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Body,CreatedDate,UpdatedDate,UpdateReason,BlogPostId,AuthorId")] Comment comment)
         {
@@ -136,6 +143,7 @@ namespace CrucibleBlogMVC.Controllers
         }
 
         // GET: Comments/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Comments == null)
@@ -157,6 +165,7 @@ namespace CrucibleBlogMVC.Controllers
 
         // POST: Comments/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

@@ -4,6 +4,7 @@
 
 @inject UserManager<BlogUser> _UserManager
 @inject IImageService _ImageService
+@inject IBlogService _BlogService
 
 @{
     BlogUser? blogUser = User.Identity!.IsAuthenticated ? await _UserManager.GetUserAsync(User) : new BlogUser();
@@ -91,16 +92,9 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="hover-flip-item-wrapper" asp-action="Popular" asp-controller="Home">
+                                                <a class="hover-flip-item-wrapper" asp-action="PopularPosts" asp-controller="Home">
                                                     <span class="">
                                                         <span> Popular Posts</span>
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="hover-flip-item-wrapper" asp-action="Recent" asp-controller="Home">
-                                                    <span class="">
-                                                        <span data-text="Recent Posts">Recent Posts</span>
                                                     </span>
                                                 </a>
                                             </li>
@@ -222,7 +216,7 @@
             <div class="inner">
                 <div class="mobile-menu-top">
                     <div class="logo">
-                        <a href="index.html">
+                        <a asp-action="Index" asp-controller="Home">
                             <img class="dark-logo" src="~/assets/images/logo/logo-black.png" alt="Logo Images">
                             <img class="light-logo" src="~/assets/images/logo/logo-white2.png" alt="Logo Images">
                         </a>
@@ -241,8 +235,7 @@
                         <a>Posts</a>
                         <ul class="axil-submenu">
                             <li><a asp-action="Index" asp-controller="Home">All Posts</a></li>
-                            <li><a href="post-details.html">Popular Posts</a></li>
-                            <li><a href="post-details.html">Recent Posts</a></li>
+                            <li><a asp-action="PopularPosts" asp-controller="Home">Popular Posts</a></li>
                         </ul>
                     </li>
                     <li>
@@ -335,37 +328,9 @@
                                 </div>
                                 <ul class="mainmenu justify-content-start">
                                     <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
+                                        <a class="hover-flip-item-wrapper" asp-action="ContactMe" asp-controller="Home">
                                             <span class="hover-flip-item">
-                                                <span data-text="Contact Us">Contact Us</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                                <span data-text="Terms of Use">Terms of Use</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                                <span data-text="AdChoices">AdChoices</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                                <span data-text="Advertise with Us">Advertise with Us</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                                <span data-text="Blogar Store">Blogar Store</span>
+                                                <span data-text="Contact Me">Contact Me</span>
                                             </span>
                                         </a>
                                     </li>
@@ -374,7 +339,7 @@
                         </div>
                         <div class="col-lg-3 col-md-12">
                             <div class="copyright-right text-start text-lg-end mt_md--20 mt_sm--20">
-                                <p class="b3">All Rights Reserved © 2022</p>
+                                <p class="b3">All Rights Reserved © 2023</p>
                             </div>
                         </div>
                     </div>
