@@ -12,6 +12,7 @@
 @{
     ViewData["Title"] = "Popular Posts";
     string? actionName = ViewBag.ActionName;
+    IEnumerable<Tag> tags = await _BlogService.GetTagsAsync();
 }
 
 <div class="text-center">
@@ -64,49 +65,20 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2 class="title">Instagram</h2>
+                        <h2 class="title">Most Popular Tag</h2>
                     </div>
                 </div>
             </div>
             <div class="row mt--30">
                 <div class="col-lg-12">
                     <ul class="instagram-post-list">
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-01.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-02.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-03.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-04.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-05.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
-                        <li class="single-post">
-                            <a href="#">
-                                <img src="assets/images/small-images/instagram-md-06.jpg" alt="Instagram Images">
-                                <span class="instagram-button"><i class="fab fa-instagram"></i></span>
-                            </a>
-                        </li>
+                        @foreach (Tag tag in tags.OrderByDescending(t => t.BlogPosts.Count).Take(6))
+                        {
+                            <li class="single-post">
+
+                                <button class="btn btn-outline-secondary rounded-pill" style="font-size: 1.6rem;"><a asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" style="color: inherit;">@tag.Name</a></button>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
