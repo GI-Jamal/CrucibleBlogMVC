@@ -35,9 +35,8 @@
                         <partial name="_BlogCard" model="@blogPost" />
                         <!-- End Post List  -->
                     }
-
-                    <div class="row flex-column">
-                        <br />
+                    <br />
+                    <div>
                         <div>
                             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                         </div>

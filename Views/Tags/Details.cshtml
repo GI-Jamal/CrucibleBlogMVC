@@ -34,7 +34,7 @@
                         <partial name="_BlogCard" model="@blogPost" />
                         <!-- End Post List  -->
                     }
-
+                    <br />
                     <div>
                         <div>
                             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
@@ -72,7 +72,7 @@
                         {
                             <li class="single-post">
 
-                                <button class="btn btn-outline-secondary rounded-pill" style="font-size: 1.6rem;"><a asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" style="color: inherit;">@tag.Name</a></button>
+                                <button class="btn btn-outline-secondary rounded-pill" style="font-size: 1.25rem;"><a asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" style="color: inherit;">@tag.Name</a></button>
                             </li>
                         }
                     </ul>
