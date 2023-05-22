@@ -50,16 +50,11 @@ namespace CrucibleBlogMVC.Controllers
             int pageSize = 4;
             int page = pageNum ?? 1;
 
-            if (string.IsNullOrEmpty(searchString?.Trim()))
-            {
-                searchString = TempData["SearchString"]?.ToString();
-            }
-
-            TempData["SearchString"] = searchString;
-
-            IPagedList<BlogPost> blogPosts = await _blogService.SearchBlogPosts(searchString).ToPagedListAsync(page, pageSize);
+            IPagedList<BlogPost> blogPosts = await _blogService.SearchBlogPosts(searchString?.Trim()).ToPagedListAsync(page, pageSize);
 
             ViewData["ActionName"] = "SearchIndex";
+
+            ViewData["SearchString"] = searchString;
             
             ViewData["BodyTitle"] = $"Articles That Contain: {searchString}";
 

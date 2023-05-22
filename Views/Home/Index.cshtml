@@ -41,7 +41,7 @@
                             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                         </div>
                         <div class="col d-flex align-items center">
-                            @Html.PagedListPager(Model, pageNum => Url.Action(actionName, new { pageNum }), new PagedListRenderOptions()
+                            @Html.PagedListPager(Model, pageNum => Url.Action(actionName, new { pageNum, searchString = ViewBag.SearchString }), new PagedListRenderOptions()
                             {
                             LiElementClasses = new string[] { "my-page-item" },
                             PageClasses = new string[] { "my-page-link" }

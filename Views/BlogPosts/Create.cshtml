@@ -109,21 +109,21 @@
             return $(a).text().toUpperCase()
                 .indexOf(m[3].toUpperCase()) >= 0;
         };
-        
-        $(document).ready(function() {
-            $('#tagInput').focus(function() {
+
+        $(document).ready(function () {
+            $('#tagInput').focus(function () {
                 $('.tagcloud').show(300);
             });
 
-            $('form *:not("#tagInput")').focus(function() {
-                if ( $('.tagcloud').is(':visible') ) {
+            $('form *:not("#tagInput")').focus(function () {
+                if ($('.tagcloud').is(':visible')) {
                     $('.tagcloud').hide(300);
                 }
             });
 
-            $('#tagInput').keyup(function() {
+            $('#tagInput').keyup(function () {
 
-                $('.disabledTag').each(function() {
+                $('.disabledTag').each(function () {
                     $(this).removeClass('disabledTag')
                 });
 
@@ -131,8 +131,8 @@
                 let inputTags = inputText.split(',');
                 let searchString = inputTags.pop().trim();
 
-                $('.tagcloud > a:contains(' + searchString + ')' ).show();
-                $('.tagcloud > a:not(:contains(' + searchString + ') )' ).hide();
+                $('.tagcloud > a:contains(' + searchString + ')').show();
+                $('.tagcloud > a:not(:contains(' + searchString + ') )').hide();
 
                 inputTags.forEach(tag => {
                     if (tag.trim() == '') return;
@@ -161,8 +161,8 @@
             currentTags.pop();
             currentTags.push(tagName);
 
-            input.value = currentTags.reduce( (inputString, currentString) => inputString + ", " + currentString.trim() ) + " ";
-            
+            input.value = currentTags.reduce((inputString, currentString) => inputString + ", " + currentString.trim()) + " ";
+
             input.focus();
 
             $('.tagcloud > a').show()
