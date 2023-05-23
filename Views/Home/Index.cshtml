@@ -74,8 +74,7 @@
                         @foreach (Tag tag in tags.OrderByDescending(t => t.BlogPosts.Count).Take(6))
                         {
                             <li class="single-post">
-
-                                <button class="btn btn-outline-secondary rounded-pill" style="font-size: 1.25rem;"><a asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" style="color: inherit;">@tag.Name</a></button>
+                                <button asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" class="btn btn-outline-secondary rounded-pill" style="font-size: 1.25rem;">@tag.Name</button>
                             </li>
                         }
                     </ul>
