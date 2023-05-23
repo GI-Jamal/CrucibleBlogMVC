@@ -6,6 +6,8 @@ using CrucibleBlogMVC.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,26 @@ builder.Services.AddIdentity<BlogUser, IdentityRole>(options => options.SignIn.R
 // MVC Routing Services
 builder.Services.AddMvc();
 
+// Add API configs
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Bullog",
+        Version = "v1",
+        Description = "Personal Blog Site",
+        Contact = new OpenApiContact
+        {
+            Name = "Jamal Gibson",
+            Email = "jamal.gibson@rogers.com",
+            Url = new Uri("https://jamalgibson-portfolio.netlify.app/")
+        }
+    });
+
+    var xmlFileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFileName));
+});
+
 // Custom Services
 builder.Services.AddScoped<IEmailSender, EmailService>();
 builder.Services.AddScoped<IImageService, ImageService>();
@@ -36,7 +58,16 @@ builder.Services.AddScoped<IBlogService, BlogService>();
 // Custom EmailSettings
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
+builder.Services.AddCors(obj =>
+{
+    obj.AddPolicy("DefaultPolicy",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 var app = builder.Build();
+app.UseCors("DefaultPolicy");
 
 var scope = app.Services.CreateScope();
 await DataUtility.ManageDataAsync(scope.ServiceProvider);
@@ -52,6 +83,17 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+// Add Swagger UI Config
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PublicAPI v1");
+    c.InjectStylesheet("/css/swagger.css");
+    c.InjectJavascript("/js/swagger.js");
+
+    c.DocumentTitle = "Bullog API Documentation";
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

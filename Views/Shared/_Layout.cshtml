@@ -45,21 +45,6 @@
         <div class="mouse-cursor cursor-outer"></div>
         <div class="mouse-cursor cursor-inner"></div>
 
-        <div id="my_switcher" class="my_switcher">
-            <ul>
-                <li>
-                    <a href="javascript: void(0);" data-theme="light" class="setColor light">
-                        <span title="Light Mode">Light</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript: void(0);" data-theme="dark" class="setColor dark">
-                        <span title="Dark Mode">Dark</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
         <!-- Start Header -->
         <header class="header axil-header header-light header-sticky header-with-shadow">
             <div class="header-wrap">
@@ -68,7 +53,6 @@
                         <div class="logo">
                             <a asp-controller="Home" asp-action="Index">
                                 <img class="dark-logo" src="~/assets/images/logo/logo-black.png" alt="Blogar logo">
-                                <img class="light-logo" src="~/assets/images/logo/logo-white2.png" alt="Blogar logo">
                             </a>
                         </div>
                     </div>
@@ -113,7 +97,7 @@
                                             <a>Author</a>
                                             <ul class="axil-submenu">
                                                 <li>
-                                                    <a class="hover-flip-item-wrapper" href="~/swagger">
+                                                    <a class="hover-flip-item-wrapper" asp-controller="Swagger" asp-action="Index">
                                                         <span class="">
                                                             <span>APIs</span>
                                                         </span>
@@ -248,7 +232,7 @@
                             <a>Author</a>
                             <ul class="axil-submenu">
                                 <li>
-                                    <a class="hover-flip-item-wrapper" href="~/swagger">
+                                    <a class="hover-flip-item-wrapper" asp-controller="Swagger" asp-action="Index">
                                         <span class="">
                                             <span>APIs</span>
                                         </span>
@@ -323,7 +307,6 @@
                                 <div class="logo">
                                     <a href="index.html">
                                         <img class="dark-logo" src="~/assets/images/logo/logo-black.png" alt="Logo Images">
-                                        <img class="light-logo" src="~/assets/images/logo/logo-white2.png" alt="Logo Images">
                                     </a>
                                 </div>
                                 <ul class="mainmenu justify-content-start">
@@ -348,9 +331,6 @@
             <!-- End Copyright Area  -->
         </div>
         <!-- End Footer Area  -->
-        <!-- Start Back To Top  -->
-        <a id="backto-top"></a>
-        <!-- End Back To Top  -->
 
     </div>
 

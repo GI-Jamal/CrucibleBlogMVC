@@ -42,43 +42,43 @@
         mobileSearch: function () {
             $('.search-button-toggle').on('click', function (e) {
                 e.preventDefault();
-               $(this).toggleClass('open');
-               $(this).siblings('.header-search-form').toggleClass('open');
+                $(this).toggleClass('open');
+                $(this).siblings('.header-search-form').toggleClass('open');
             });
         },
 
         contactForm: function () {
             $('.axil-contact-form').on('submit', function (e) {
-				e.preventDefault();
-				var _self = $(this);
-				var __selector = _self.closest('input,textarea');
-				_self.closest('div').find('input,textarea').removeAttr('style');
-				_self.find('.error-msg').remove();
-				_self.closest('div').find('button[type="submit"]').attr('disabled', 'disabled');
-				var data = $(this).serialize();
-				$.ajax({
-					url: 'mail.php',
-					type: "post",
-					dataType: 'json',
-					data: data,
-					success: function (data) {
-						_self.closest('div').find('button[type="submit"]').removeAttr('disabled');
-						if (data.code == false) {
-							_self.closest('div').find('[name="' + data.field + '"]');
-							_self.find('.btn-primary').after('<div class="error-msg"><p>*' + data.err + '</p></div>');
-						} else {
-							$('.error-msg').hide();
-							$('.form-group').removeClass('focused');
-							_self.find('.btn-primary').after('<div class="success-msg"><p>' + data.success + '</p></div>');
-							_self.closest('div').find('input,textarea').val('');
+                e.preventDefault();
+                var _self = $(this);
+                var __selector = _self.closest('input,textarea');
+                _self.closest('div').find('input,textarea').removeAttr('style');
+                _self.find('.error-msg').remove();
+                _self.closest('div').find('button[type="submit"]').attr('disabled', 'disabled');
+                var data = $(this).serialize();
+                $.ajax({
+                    url: 'mail.php',
+                    type: "post",
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        _self.closest('div').find('button[type="submit"]').removeAttr('disabled');
+                        if (data.code == false) {
+                            _self.closest('div').find('[name="' + data.field + '"]');
+                            _self.find('.btn-primary').after('<div class="error-msg"><p>*' + data.err + '</p></div>');
+                        } else {
+                            $('.error-msg').hide();
+                            $('.form-group').removeClass('focused');
+                            _self.find('.btn-primary').after('<div class="success-msg"><p>' + data.success + '</p></div>');
+                            _self.closest('div').find('input,textarea').val('');
 
-							setTimeout(function () {
-								$('.success-msg').fadeOut('slow');
-							}, 5000);
-						}
-					}
-				});
-			});
+                            setTimeout(function () {
+                                $('.success-msg').fadeOut('slow');
+                            }, 5000);
+                        }
+                    }
+                });
+            });
         },
 
         cursorAnimate: function () {
@@ -99,7 +99,7 @@
                 }
             }
         },
-        
+
 
         onhoverAnimated: function () {
             var cerchio = document.querySelectorAll('.cerchio');
@@ -171,7 +171,7 @@
                     axilInit._html.css({
                         overflow: ''
                     });
-                $('.popup-mobilemenu-area .menu-item-has-children a').removeClass('open').siblings('.axil-submenu').slideUp('400');   
+                $('.popup-mobilemenu-area .menu-item-has-children a').removeClass('open').siblings('.axil-submenu').slideUp('400');
 
             })
             $('.popup-mobilemenu-area').on('click', function (e) {
@@ -183,13 +183,11 @@
         },
 
         mobileMenuNavShow: function (e) {
-            var screenWidth = axilInit._window.width();
-            if (screenWidth < 1200) {
-                $('.popup-mobilemenu-area .menu-item-has-children a').on('click', function (e) {
-                    $(this).siblings('.axil-submenu').slideToggle('400');
-                    $(this).toggleClass('open').siblings('.axil-submenu').toggleClass('active')
-                })
-            }
+            $('.popup-mobilemenu-area .menu-item-has-children a').on('click', function (e) {
+                $(this).siblings('.axil-submenu').slideToggle('400');
+                $(this).toggleClass('open').siblings('.axil-submenu').toggleClass('active')
+            })
+
         },
 
         axilHover: function () {
@@ -250,7 +248,7 @@
             });
         },
 
-        
+
         axilSlickActivation: function (e) {
             $('.slider-activation').slick({
                 infinite: true,
@@ -274,23 +272,23 @@
                 prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-arrow-left"></i></button>',
                 nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-arrow-right"></i></button>',
                 responsive: [{
-                        breakpoint: 992,
-                        settings: {
-                            slidesToShow: 2,
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 2,
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            slidesToShow: 1,
-                        }
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 2,
                     }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                    }
+                }
                 ]
             });
 
@@ -322,23 +320,23 @@
                 prevArrow: '<button class="slide-arrow prev-arrow"><i class="fal fa-arrow-left"></i></button>',
                 nextArrow: '<button class="slide-arrow next-arrow"><i class="fal fa-arrow-right"></i></button>',
                 responsive: [{
-                        breakpoint: 992,
-                        settings: {
-                            slidesToShow: 5,
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 4,
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            slidesToShow: 2,
-                        }
+                    breakpoint: 992,
+                    settings: {
+                        slidesToShow: 5,
                     }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 4,
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 2,
+                    }
+                }
 
                 ]
             });
@@ -358,26 +356,26 @@
                 autoplaySpeed: 5000,
                 infinite: false,
                 responsive: [{
-                        breakpoint: 1199,
-                        settings: {
-                            vertical: true,
-                            slidesToShow: 3,
-                        }
-                    },
-                    {
-                        breakpoint: 992,
-                        settings: {
-                            vertical: true,
-                            slidesToShow: 3,
-                        }
-                    },
-                    {
-                        breakpoint: 577,
-                        settings: {
-                            vertical: true,
-                            slidesToShow: 2,
-                        }
+                    breakpoint: 1199,
+                    settings: {
+                        vertical: true,
+                        slidesToShow: 3,
                     }
+                },
+                {
+                    breakpoint: 992,
+                    settings: {
+                        vertical: true,
+                        slidesToShow: 3,
+                    }
+                },
+                {
+                    breakpoint: 577,
+                    settings: {
+                        vertical: true,
+                        slidesToShow: 2,
+                    }
+                }
                 ]
 
             });
@@ -395,7 +393,7 @@
                 }]
             });
         },
-        
+
         _clickDoc: function (e) {
             var subscribePopupHide;
             subscribePopupHide = function (e) {
