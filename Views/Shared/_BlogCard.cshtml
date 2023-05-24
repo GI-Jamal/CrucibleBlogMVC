@@ -9,7 +9,7 @@
 <div class="content-block post-list-view mt--30">
     <div class="post-thumbnail">
         <a asp-controller="BlogPosts" asp-action="Details" asp-route-slug="@Model.Slug">
-            <img src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData, Model.ImageType, (int)(DefaultImage.BlogPostImage))">
+            <img src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData, Model.ImageType, (int)(DefaultImage.BlogPostImage))" id="blogCardImage">
         </a>
     </div>
     <div class="post-content">

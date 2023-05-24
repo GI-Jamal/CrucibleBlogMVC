@@ -119,6 +119,87 @@ html {
     align-content: space-between;
 }
 
+#blogCardImage {
+    max-height: 166px !important;
+}
+
+#blogImage {
+    max-width: 250px !important;
+}
+
+@media (min-width: 350px) {
+    #blogImage {
+        max-width: 300px !important;  
+    }
+
+    #blogCardImage {
+        max-height: 179px !important;
+    }
+}
+
+@media (min-width: 400px) {
+    #blogImage {
+        max-width: 350px !important;  
+    }
+
+    #blogCardImage {
+        max-height: 193px !important;
+    }
+}
+
+@media (min-width: 450px) {
+    #blogImage {
+        max-width: 400px !important;  
+    }
+
+    #blogCardImage {
+        max-height: 206px !important;
+    }
+}
+
+@media (min-width: 576px) {
+    .categoryCard {
+        max-width: 250px !important;
+        max-height: 250px !important;
+    }
+
+    #blogImage {
+        max-width: 450px !important;
+    }
+
+    #blogCardImage {
+        max-height: 219px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    #blogImage {
+        max-width: 550px !important;
+    }
+
+    #blogCardImage {
+        max-height: 219px !important;
+    }
+}
+
+@media (min-width: 992px) {
+    #blogImage {
+        max-width: 650px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    #blogImage {
+        max-width: 750px !important;
+    }
+}
+
+@media (min-width: 1400px) {
+    #blogImage {
+        max-width: 850px !important;
+    }
+}
+
 @media (max-width: 992px) {
     .LoginAndRegister {
         max-width: 250px !important;

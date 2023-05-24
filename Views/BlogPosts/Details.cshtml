@@ -19,7 +19,7 @@
     }
 </style>
 <!-- Start Post Single Wrapper  -->
-<div class="post-single-wrapper axil-section-gap bg-color-white">
+<div class="post-single-wrapper axil-section-gap bg-color-white" style="padding-bottom: 0px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -59,7 +59,7 @@
                                                         </a>
                                                     </h6>
                                                     <ul class="post-meta-list">
-                                                        <li>@Model.CreatedDate.ToString("MM.dd.yy")</li>
+                                                        <li>@Model.CreatedDate.ToString("MMM dd, yyyy")</li>
                                                         <li>@Model.Comments.Count @(Model.Comments.Count == 1 ? "comment" : "comment(s)")</li>
                                                     </ul>
                                                 </div>
@@ -85,8 +85,8 @@
                     <p class="has-medium-font-size">
                         @Model.Abstract
                     </p>
-                    <figure class="wp-block-image alignwide text-center">
-                        <img src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData, Model.ImageType, (int)DefaultImage.BlogPostImage)" alt="Show the blogs Image here" />
+                    <figure class="wp-block-image alignwide text-center" style="margin-left: 0px;margin-right: 0px;">
+                        <img src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData, Model.ImageType, (int)DefaultImage.BlogPostImage)" alt="Show the blogs Image here" id="blogImage"/>
                     </figure>
                     @Html.Raw(Model.Content)
                     <div class="tagcloud">
@@ -209,7 +209,7 @@
                                                         </a>
                                                     </h6>
                                                     <div class="comment-meta">
-                                                        <div class="time-spent">For the comment day here</div>
+                                                        <div class="time-spent">@comment.CreatedDate.ToString("MMM dd, yyyy")</div>
                                                         <div class="reply-edit">
                                                         </div>
                                                     </div>

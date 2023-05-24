@@ -8101,6 +8101,7 @@ button.search-button i {
   border-radius: 100%;
   max-height: 40px;
   min-width: 40px;
+  object-fit: cover;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1599px) {
   .metabar-block li img {
@@ -9945,6 +9946,7 @@ Post Category
 }
 .post-meta .post-author-avatar.border-rounded img {
   border-radius: 100%;
+  object-fit: cover;
 }
 .post-meta .post-author-name {
   margin-bottom: 4px;
@@ -10462,6 +10464,7 @@ blockquote p {
   border-radius: 100%;
   margin-right: 53px;
   margin-bottom: 20px;
+  object-fit: cover;
 }
 @media only screen and (max-width: 767px) {
   .about-author .thumbnail a img {
@@ -10790,6 +10793,7 @@ blockquote p {
 .comment-list .comment .single-comment .comment-img img {
   border-radius: 100%;
   width: 100%;
+  object-fit: cover
 }
 .comment-list .comment .commenter {
   margin-bottom: 4px;
