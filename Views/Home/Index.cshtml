@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <h2 class="title">Most Popular Tags</h2>
+                        <h2 class="title">Most Common Tags</h2>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         @foreach (Tag tag in tags.OrderByDescending(t => t.BlogPosts.Count).Take(6))
                         {
                             <li class="single-post">
-                                <button asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" class="btn btn-outline-secondary rounded-pill" style="font-size: 1.25rem;">@tag.Name</button>
+                                <a asp-action="Details" asp-controller="Tags" asp-route-id="@tag.Id" class="btn btn-outline-secondary rounded-pill" style="font-size: 1.25rem;">@tag.Name</a>
                             </li>
                         }
                     </ul>

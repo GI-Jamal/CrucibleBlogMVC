@@ -9,7 +9,7 @@
     <!-- Start Single Widget  -->
     <div class="axil-single-widget widget widget_categories mb--30">
         <ul>
-            @foreach (Category category in (await _BlogService.GetCategoriesAsync()).OrderByDescending(c => c.BlogPosts.Count).Take(4))
+            @foreach (Category category in (await _BlogService.GetCategoriesAsync()).OrderByDescending(c => c.BlogPosts.Count(b => b.IsPublished == true && b.IsDeleted == false)).Take(4))
             {
                 <li class="cat-item">
                     <a asp-action="Details" asp-controller="Categories" asp-route-id="@category.Id" class="inner">

@@ -41,7 +41,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="form-group">
                         <label asp-for="ImageFile" class="control-label">Blog Post Image</label>
-                        <img class="img-fluid border rounded-3 mb-2" style="max-height: 350px;" src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData!,Model.ImageType!,(int)DefaultImage.BlogPostImage)" id="blogImage">
+                        <img class="border rounded-3 mb-2" style="max-height:260px;" src="@_ImageService.ConvertByteArrayToFileAsync(Model.ImageData!,Model.ImageType!,(int)DefaultImage.BlogPostImage)" id="blogImage">
                         <input asp-for="ImageFile" type="file" class="form-control mt-3 pt-2" accept=".png,.jpg,.jpeg,.gif"
                                onchange="document.getElementById('blogImage').src = window.URL.createObjectURL(this.files[0])" />
                     </div>
