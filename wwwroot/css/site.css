@@ -12,22 +12,22 @@
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 /*body {
@@ -109,11 +109,11 @@ html {
     color: black !important;
 }
 
-.tagcloud > a.disabledTag:hover {
-    background-color: lightgray;
-    color: darkgray !important;
-    border-color: lightgray !important;
-}
+    .tagcloud > a.disabledTag:hover {
+        background-color: lightgray;
+        color: darkgray !important;
+        border-color: lightgray !important;
+    }
 
 .categoryCard {
     align-content: space-between;
@@ -127,9 +127,16 @@ html {
     max-width: 250px !important;
 }
 
+@media (max-width:768px){
+    .logoSection {
+        padding-left: 25% !important;
+        padding-right: 25% !important;
+    }
+}
+
 @media (min-width: 350px) {
     #blogImage {
-        max-width: 300px !important;  
+        max-width: 300px !important;
     }
 
     #blogCardImage {
@@ -139,7 +146,7 @@ html {
 
 @media (min-width: 400px) {
     #blogImage {
-        max-width: 350px !important;  
+        max-width: 350px !important;
     }
 
     #blogCardImage {
@@ -149,7 +156,7 @@ html {
 
 @media (min-width: 450px) {
     #blogImage {
-        max-width: 400px !important;  
+        max-width: 400px !important;
     }
 
     #blogCardImage {
@@ -204,5 +211,5 @@ html {
     .LoginAndRegister {
         max-width: 250px !important;
         max-height: 250px !important;
-    } 
+    }
 }
