@@ -32,6 +32,7 @@ namespace CrucibleBlogMVC.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -52,6 +53,7 @@ namespace CrucibleBlogMVC.Controllers
             return View(comment);
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: Comments/Create
         public IActionResult Create()
         {
