@@ -127,6 +127,31 @@ html {
     max-width: 250px !important;
 }
 
+#logoImg {
+    height: 60px;
+    width: 50px;
+}
+
+#logoText {
+    height: 60px;
+    width: 60px;
+}
+
+@media (max-width: 319px)
+{
+    #logoImg {
+        height: 50px;
+        width: 40px;
+    }
+
+    #logoText {
+        height: 50px;
+        width: 50px;
+    }
+}
+
+
+
 @media (max-width:768px){
     .logoSection {
         padding-left: 25% !important;

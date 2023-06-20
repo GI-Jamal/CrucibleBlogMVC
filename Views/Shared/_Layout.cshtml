@@ -52,9 +52,9 @@
                     <div class="col-xl-3 col-lg-3 col-md-4 col-12 logoSection">
                         <a asp-controller="Home" asp-action="Index" >
                             <div style="background-color:#EFEFEF;" class="rounded-pill d-flex p-1 justify-content-center mb-2 mb-md-0">
-                                <div class="d-flex flex-sm-row justify-content-center justify-content-sm-start mb-1 mb-sm-0">
-                                    <img src="~/img/bull.png" alt="Blogar logo" style="max-height:60px;max-width:50px;">
-                                    <div class="d-flex align-items-center" style="background-color:#EFEFEF;height:60px;width:60px">
+                                <div class="d-flex align-items-center flex-sm-row justify-content-center justify-content-sm-start mb-1 mb-sm-0">
+                                    <img src="~/img/bull.png" alt="Blogar logo" id="logoImg">
+                                    <div class="d-flex align-items-center" id="logoText">
                                         <span class="text-danger"><strong>Bul</strong></span><span class="text-black"><strong>Log</strong></span>
                                     </div>
                                 </div>
@@ -289,12 +289,12 @@
                         <div class="col-lg-12">
                             <!-- Start Post List  -->
                             <div class="inner d-flex align-items-center flex-wrap">
-                                <h5 class="follow-title mb--0 mr--20">Follow Us</h5>
+                                <h5 class="follow-title mb--0 mr--20">Find Me Here</h5>
                                 <ul class="social-icon color-tertiary md-size justify-content-start">
-                                    <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                    <li><a href="mailto:jamal.gibson@rogers.com"><i class="far fa-envelope"></i></a></li>
+                                    <li><a href="https://github.com/GI-Jamal"><i class="fa fa-github"></i></a></li>
+                                    <li><a href="https://www.linkedin.com/in/jamal-gibson-3b7bb9140/"><i class="fab fa-linkedin-in"></i></a></li>
+                                    <li><a href="https://jamalgibson-portfolio.netlify.app/"><i class="fa fa-globe"></i></a></li>
                                 </ul>
                             </div>
                             <!-- End Post List  -->
@@ -307,26 +307,24 @@
             <div class="copyright-area">
                 <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-lg-9 col-md-12">
+                        <div class="col-md-8 col-12">
                             <div class="copyright-left">
-                                <div class="logo">
-                                    <a href="index.html">
-                                        <img class="dark-logo" src="~/assets/images/logo/logo-black.png" alt="Logo Images">
+                                <div class="col-xl-3 col-lg-3 col-md-4 col-12 logoSection">
+                                    <a asp-controller="Home" asp-action="Index">
+                                        <div style="background-color:#EFEFEF;" class="rounded-pill d-flex p-1 justify-content-center mb-2 mb-md-0">
+                                            <div class="d-flex flex-sm-row justify-content-center justify-content-sm-start mb-1 mb-sm-0">
+                                                <img src="~/img/bull.png" alt="Blogar logo" id="logoImg">
+                                                <div class="d-flex align-items-center" id="logoText">
+                                                    <span class="text-danger"><strong>Bul</strong></span><span class="text-black"><strong>Log</strong></span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </a>
-                                </div>
-                                <ul class="mainmenu justify-content-start">
-                                    <li>
-                                        <a class="hover-flip-item-wrapper" asp-action="ContactMe" asp-controller="Home">
-                                            <span class="hover-flip-item">
-                                                <span data-text="Contact Me">Contact Me</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul>
+                                </div>                                
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-12">
-                            <div class="copyright-right text-start text-lg-end mt_md--20 mt_sm--20">
+                        <div class="col-md-4 col-12">
+                            <div class="copyright-right text-center text-md-end mt_md--20 mt_sm--20">
                                 <p class="b3">All Rights Reserved © 2023</p>
                             </div>
                         </div>

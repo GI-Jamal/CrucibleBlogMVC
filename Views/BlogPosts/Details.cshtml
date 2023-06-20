@@ -64,11 +64,11 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <ul class="social-share-transparent justify-content-end">
-                                                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                                                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                                <li><a href="#"><i class="fas fa-link"></i></a></li>
+                                            <ul class="social-share-transparent justify-content-end mt-0">
+                                                <li><a href="mailto:jamal.gibson@rogers.com"><i class="far fa-envelope"></i></a></li>
+                                                <li><a href="https://github.com/GI-Jamal"><i class="fa fa-github"></i></a></li>
+                                                <li><a href="https://www.linkedin.com/in/jamal-gibson-3b7bb9140/"><i class="fab fa-linkedin-in"></i></a></li>
+                                                <li><a href="https://jamalgibson-portfolio.netlify.app/"><i class="fa fa-globe"></i></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -110,35 +110,35 @@
                                 <span id="numLikes">@Model.Likes.Where(l => l.IsLiked == true).Count() Like(s)</span>
                             </a>
                         </div>
-                        <ul class="social-icon icon-rounded-transparent md-size">
+                       @*<ul class="social-icon icon-rounded-transparent md-size">
                             <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                             <li><a href="#"><i class="fab fa-instagram"></i></a></li>
                             <li><a href="#"><i class="fab fa-twitter"></i></a></li>
                             <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
-                        </ul>
+                        </ul>*@
                     </div>
                     <!-- Start Author  -->
                     <div class="about-author">
-                        <div class="media">
-                            <div class="thumbnail">
+                        <div class="row media">
+                            <div class="col-12 col-sm-3 thumbnail d-flex align-items-center justify-content-center">
                                 <a href="#">
-                                    <img src="@_ImageService.ConvertByteArrayToFileAsync(ViewBag.BlogAuthor.ImageData, ViewBag.BlogAuthor.ImageType, (int)(DefaultImage.BlogUserImage))" alt="Author Images" style="height:120px;width:120px">
+                                    <img src="@_ImageService.ConvertByteArrayToFileAsync(ViewBag.BlogAuthor.ImageData, ViewBag.BlogAuthor.ImageType, (int)(DefaultImage.BlogUserImage))" alt="Author Images" style="height:120px;width:120px" class="mr-0">
                                 </a>
                             </div>
-                            <div class="media-body">
-                                <div class="author-info">
-                                    <h5 class="title">
-                                        <a class="hover-flip-item-wrapper" href="#">
-                                            <span class="hover-flip-item">
-                                                <span data-text="Jamal Gibson">Jamal Gibson</span>
-                                            </span>
-                                        </a>
-                                    </h5>
-                                    <span class="b3 subtitle">Software Developer</span>
+                            <div class="col-12 col-sm-9 media-body">
+                                <div class="author-info text-center text-sm-start d-sm-block">
+                                    <div class="title">
+                                        <div class="d-flex flex-row justify-content-center d-sm-block">
+                                            <a class="hover-flip-item-wrapper" href="#">
+                                                <h5 class="hover-flip-item mb-0" data-text="Jamal Gibson">Jamal Gibson</h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span class="b3 subtitle">Full-Stack Web Developer</span>
                                 </div>
                                 <div class="content">
                                     <p class="b1 description">
-                                        Aspriring developer by day, amateur blogger by night. Follow me on my journey to becoming a full stack developer.
+                                        Developer by day, amateur blogger by night. Follow me on my journey of learning as I write about the projects I am working on and other interesting things I find along the way.
                                     </p>
                                 </div>
                             </div>
@@ -178,7 +178,7 @@
                             <h4 class="mb--0">30+ Comments</h4>
                             </div>*@
                                 <div class="add-comment-button cerchio">
-                                    <a class="axil-button button-rounded" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Details", "BlogPosts", new { id = Model.Id })" tabindex="0"><span>Login to Add Your Comment</span></a>
+                                    <a class="axil-button button-rounded" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Details", "BlogPosts", new { id = Model.Id })" tabindex="0"><span>Login to add a comment</span></a>
                                 </div>
                             </div>
                         }
