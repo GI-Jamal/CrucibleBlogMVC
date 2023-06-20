@@ -10462,15 +10462,10 @@ blockquote p {
 }
 .about-author .thumbnail a img {
   border-radius: 100%;
-  margin-right: 53px;
   margin-bottom: 20px;
   object-fit: cover;
 }
-@media only screen and (max-width: 767px) {
-  .about-author .thumbnail a img {
-    margin-right: 20px;
-  }
-}
+
 .about-author .media-body {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
@@ -11424,14 +11419,9 @@ Instagram Styles
 }
 .axil-author-banner .about-author .thumbnail a img {
   border-radius: 100%;
-  margin-right: 53px;
   margin-bottom: 20px;
 }
-@media only screen and (max-width: 767px) {
-  .axil-author-banner .about-author .thumbnail a img {
-    margin-right: 20px;
-  }
-}
+
 .axil-author-banner .about-author .media-body .author-info .title {
   margin-bottom: 0;
   font-size: 30px;

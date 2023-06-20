@@ -62,7 +62,7 @@ html {
 
 .my-page-link {
     display: block;
-    width: 40px;
+    width: 30px;
     height: 40px;
     line-height: 40px;
     background-color: #fff;
@@ -150,8 +150,6 @@ html {
     }
 }
 
-
-
 @media (max-width:768px){
     .logoSection {
         padding-left: 25% !important;
@@ -236,5 +234,17 @@ html {
     .LoginAndRegister {
         max-width: 250px !important;
         max-height: 250px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    #authorImg {
+        margin-right: 0px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    #authorAreaImg {
+        margin-right: 30px !important;
     }
 }

@@ -11,10 +11,10 @@
         <ul>
             @foreach (Category category in (await _BlogService.GetCategoriesAsync()).OrderByDescending(c => c.BlogPosts.Count(b => b.IsPublished == true && b.IsDeleted == false)).Take(4))
             {
-                <li class="cat-item">
-                    <a asp-action="Details" asp-controller="Categories" asp-route-id="@category.Id" class="inner">
+                <li class="cat-item" style="height:70px;">
+                    <a asp-action="Details" asp-controller="Categories" asp-route-id="@category.Id" class="inner" style="height:60px;">
                         <div class="thumbnail">
-                            <img src="@_ImageService.ConvertByteArrayToFileAsync(category.ImageData, category.ImageType, (int)DefaultImage.CategoryImage)" alt="">
+                            <img src="@_ImageService.ConvertByteArrayToFileAsync(category.ImageData, category.ImageType, (int)DefaultImage.CategoryImage)">
                         </div>
                         <div class="content">
                             <h5 class="title">@category.Name</h5>

@@ -36,16 +36,18 @@
                         <!-- End Post List  -->
                     }
                     <br />
-                    <div>
-                        <div>
+                    <div class="row">
+                        <div class="col-12">
                             Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
                         </div>
-                        <div class="col d-flex align-items center">
+                        <div class="col-12 d-flex flex-row justify-content-center">
                             @Html.PagedListPager(Model, pageNum => Url.Action(actionName, new { pageNum, searchString = ViewBag.SearchString }), new PagedListRenderOptions()
                             {
-                            LiElementClasses = new string[] { "my-page-item" },
-                            PageClasses = new string[] { "my-page-link" }
-                            })
+                                LiElementClasses = new string[] { "my-page-item" },
+                                PageClasses = new string[] { "my-page-link" },
+                                MaximumPageNumbersToDisplay = 2,
+                                DisplayEllipsesWhenNotShowingAllPageNumbers = false
+                            })                            
                         </div>
                     </div>
                 </div>
